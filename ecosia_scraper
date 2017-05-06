@@ -1,0 +1,28 @@
+from selenium import webdriver
+from selenium.webdriver.support.ui import WebDriverWait
+from sys import argv
+from random import random
+
+def search():
+	driver = webdriver.PhantomJS()
+	search_term = ['weather', 'translate', 'maps', 'news', 'calculator', 'money', 'investment', 'girls', 'clubs', 'bars']
+	driver.get('https://www.ecosia.org/search?q=' + search_term[int(random() * 10// 1)])
+	# search = driver.find_element_by_xpath('/html/body/div[2]/div[2]/div[1]/form/input')
+	# search.clear()
+	# search.send_keys(str(random()))
+	# button = WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_class_name('search-form-button search-form-submit'))
+	# button.click()
+	WebDriverWait(driver, 10).until(lambda driver: driver.find_element_by_xpath('/html/body/div[2]/div[1]/div[3]/div/div/div/div/ul/li[1]'))
+	ads = driver.find_elements_by_class_name('results-ads')
+	for div in ads:
+		links = div.find_elements_by_class_name('result-url')
+		for l in links:
+			driver.get(l.get_attribute('href'))
+			break
+		break
+	driver.quit()
+
+searches = int(argv[1])
+while searches != 0:
+	search()
+	searches -= 1
